@@ -2,6 +2,8 @@ package com.wallacebp.resources;
 
 import java.net.URI;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -37,7 +39,7 @@ public class ManagerResources {
 	}
 	
 	@PostMapping
-	public ResponseEntity<ManagerDTO> insert(@RequestBody ManagerDTO dto){
+	public ResponseEntity<ManagerDTO> insert(@Valid @RequestBody ManagerDTO dto){
 		dto = service.insert(dto);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 				.buildAndExpand(dto.getId()).toUri();
