@@ -34,4 +34,14 @@ public class ManagerService {
 		return new ManagerDTO(entity);
 	}
 	
+	@Transactional
+	public ManagerDTO insert(ManagerDTO dto) {
+		Manager entity = new Manager();
+		entity.setName(dto.getName());
+		entity.setEmail(dto.getEmail());
+		entity.setPhoneNumber(dto.getPhoneNumber());
+		entity = repository.save(entity);
+		return new ManagerDTO(entity);
+	}
+	
 }
