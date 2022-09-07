@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.wallacebp.enums.Profile;
 
 @Entity
@@ -15,6 +16,7 @@ public class Manager extends Person {
 	private String email;
 	private String phoneNumber;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "manager")
 	private Set<WorkOrder> orders = new HashSet<>();
 
