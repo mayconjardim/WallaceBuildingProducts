@@ -19,9 +19,8 @@ public class Dispatcher extends Person {
 		addProfiles(Profile.DISPATCHER);
 	}
 
-	public Dispatcher(Long id, String name, Set<WorkOrder> orders) {
+	public Dispatcher(Long id, String name) {
 		super(id, name);
-		this.orders = orders;
 		addProfiles(Profile.DISPATCHER);
 	}
 

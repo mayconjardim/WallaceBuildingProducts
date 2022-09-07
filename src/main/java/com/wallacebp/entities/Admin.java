@@ -1,7 +1,10 @@
 package com.wallacebp.entities;
 
+import javax.persistence.Entity;
+
 import com.wallacebp.enums.Profile;
 
+@Entity
 public class Admin extends Person {
 	private static final long serialVersionUID = 1L;
 
