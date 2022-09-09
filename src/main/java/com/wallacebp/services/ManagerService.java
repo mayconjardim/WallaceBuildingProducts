@@ -2,7 +2,11 @@ package com.wallacebp.services;
 
 import java.util.Optional;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -49,6 +53,34 @@ public class ManagerService {
 		return new ManagerDTO(entity);
 	}
 
+	@Transactional
+	public ManagerDTO update(Long id, ManagerDTO dto) {
+		try {
+			Manager entity = repository.getById(id);
+			isValid(dto);
+			entity.setName(dto.getName());
+			entity.setEmail(dto.getEmail());
+			entity.setPhoneNumber(dto.getPhoneNumber());
+			entity = repository.save(entity);
+			return new ManagerDTO(entity);
+		} catch (EntityNotFoundException e) {
+			throw new ResourceNotFoundException("Id not found: " + id);
+		}
+	}
+
+	public void delete(Long id) {
+		try {
+			repository.deleteById(id);
+		}
+		catch (EmptyResultDataAccessException e ) {
+			throw new ResourceNotFoundException("Id not found: " + id);
+		}
+		catch (DataIntegrityViolationException e ) {
+			throw new DatabaseException("Integrity Violation!");
+		}
+	}
+	
+	
 	private void isValid(ManagerDTO dto) {
 		Optional<Person> person = personRepository.findByName(dto.getName());
 
