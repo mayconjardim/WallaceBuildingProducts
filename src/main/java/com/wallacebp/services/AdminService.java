@@ -9,6 +9,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +29,8 @@ public class AdminService {
 
 	@Autowired
 	private PersonRepository personRepository;
+	
+	@Autowired BCryptPasswordEncoder encoder;
 
 	@Transactional(readOnly = true)
 	public Page<AdminDTO> findAllPaged(Pageable pageable) {
@@ -47,7 +50,7 @@ public class AdminService {
 		Admin entity = new Admin();
 		isValid(dto);
 		entity.setName(dto.getName());
-		entity.setPassword(dto.getPasswrod());
+		entity.setPassword(encoder.encode(dto.getPasswrod()));
 		entity = repository.save(entity);
 		return new AdminDTO(entity);
 	}
@@ -58,7 +61,7 @@ public class AdminService {
 			Admin entity = repository.getById(id);
 			isValid(dto);
 			entity.setName(dto.getName());
-			entity.setPassword(dto.getPasswrod());
+			entity.setPassword(encoder.encode(dto.getPasswrod()));
 			entity = repository.save(entity);
 			return new AdminDTO(entity);
 		} catch (EntityNotFoundException e) {

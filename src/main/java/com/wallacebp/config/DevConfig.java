@@ -12,21 +12,20 @@ import com.wallacebp.services.DBService;
 @Profile("dev")
 public class DevConfig {
 
-	 @Autowired
-	 private DBService dbService;
-
-	 @Value("${spring.jpa.hibernate.ddl-auto}")
-	 private String ddl;
-	 
-	 @Bean
-	 public boolean initDB() {
-		  
-		 if (ddl.equals("create")) {
-			 this.dbService.instanciaDB();
-		 }
-		
+	@Autowired
+	private DBService dbService;
+	
+	@Value("${spring.jpa.hibernate.ddl-auto}")
+	private String value;
+	
+	@Bean
+	public boolean instanciaDb() {
+		this.dbService.instanciaDb();
+		if(value.equals("create")) {
+			this.dbService.instanciaDb();
+		}
 		return false;
-	 }
+	}
 	
 	
 }

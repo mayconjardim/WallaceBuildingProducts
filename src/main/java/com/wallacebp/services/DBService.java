@@ -3,6 +3,7 @@ package com.wallacebp.services;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.wallacebp.entities.Admin;
@@ -30,10 +31,12 @@ public class DBService {
 
 	@Autowired
 	private WorkOrderRepository orderRepository;
+	
+	@Autowired BCryptPasswordEncoder encoder;
 
-	public void instanciaDB() {
+	public void instanciaDb() {
 
-		Admin adm1 = new Admin(null, "Admin", "88471989");
+		Admin adm1 = new Admin(null, "Admin", encoder.encode("123"));
 
 		Manager mg1 = new Manager(null, "Tjeua", "tjeua@gmail.com", "+5521975185287");
 
