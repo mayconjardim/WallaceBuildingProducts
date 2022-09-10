@@ -20,13 +20,13 @@ public class WorkOrder implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY )
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@JsonFormat(pattern = "MM/dd/yyyy HH:ss")
+	@JsonFormat(pattern = "MM/dd/yyyy")
 	private LocalDate startDate = LocalDate.now();
 	
-	@JsonFormat(pattern = "MM/dd/yyyy HH:ss")
+	@JsonFormat(pattern = "MM/dd/yyyy")
 	private LocalDate endDate;
 	private Priority priority;
 	private Status status;
