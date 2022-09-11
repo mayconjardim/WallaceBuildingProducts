@@ -18,6 +18,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.wallacebp.security.JWTAuthenticationFilter;
+import com.wallacebp.security.JWTAuthorizationFilter;
 import com.wallacebp.security.JWTUtil;
 
 @EnableWebSecurity
@@ -46,6 +47,7 @@ private static final String[] PUBLIC_MATCHERS = { "/h2-console/**" };
 
 		http.cors().and().csrf().disable();
 		http.addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtUtil));
+		http.addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtUtil, userDetailsService));
 		http.authorizeRequests().
 		antMatchers(PUBLIC_MATCHERS).permitAll()
 		.anyRequest().authenticated();

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,6 +41,7 @@ public class ManagerResources {
 		return ResponseEntity.ok().body(dto);
 	}
 	
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@PostMapping
 	public ResponseEntity<ManagerDTO> insert(@Valid @RequestBody ManagerDTO dto){
 		dto = service.insert(dto);
@@ -48,12 +50,14 @@ public class ManagerResources {
 		return ResponseEntity.created(uri).body(dto);
 	}
 	
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<ManagerDTO> update(@PathVariable Long id, @Valid @RequestBody ManagerDTO dto) {
 		dto = service.update(id, dto);
 		return ResponseEntity.ok().body(dto);
 	}
 	
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<ManagerDTO> delete(@PathVariable Long id) {
 		service.delete(id);
