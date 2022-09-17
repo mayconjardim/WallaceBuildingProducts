@@ -1,14 +1,14 @@
 package com.wallacebp.services;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,9 +30,9 @@ public class ManagerService {
 	private PersonRepository personRepository;
 
 	@Transactional(readOnly = true)
-	public Page<ManagerDTO> findAllPaged(Pageable pageable) {
-		Page<Manager> list = repository.findAll(pageable);
-		return list.map(x -> new ManagerDTO(x));
+	public List<ManagerDTO> findAll( ) {
+		List<Manager> list = repository.findAll();
+		return list.stream().map((x -> new ManagerDTO(x))).collect(Collectors.toList());
 	}
 
 	@Transactional(readOnly = true)
@@ -83,9 +83,14 @@ public class ManagerService {
 	
 	private void isValid(ManagerDTO dto) {
 		Optional<Person> person = personRepository.findByName(dto.getName());
+		Optional<Manager> manager = repository.findByEmail(dto.getEmail());
 
 		if (person.isPresent() && person.get().getId() != dto.getId()) {
 			throw new DatabaseException("Name already registered!");
+		}
+		
+		if (manager.isPresent() && manager.get().getEmail() != dto.getEmail()) {
+			throw new DatabaseException("Email already registered!");
 		}
 
 	}

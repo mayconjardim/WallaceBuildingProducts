@@ -22,6 +22,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.wallacebp.dto.AdminDTO;
 import com.wallacebp.services.AdminService;
 
+
 @RestController
 @RequestMapping(value = "/admins")
 public class AdminResources {

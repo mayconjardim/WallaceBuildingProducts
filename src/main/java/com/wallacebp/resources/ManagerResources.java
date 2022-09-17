@@ -1,12 +1,11 @@
 package com.wallacebp.resources;
 
 import java.net.URI;
+import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -30,8 +29,8 @@ public class ManagerResources {
 	private ManagerService service;
 	
 	@GetMapping
-	public ResponseEntity<Page<ManagerDTO>> findAll(Pageable pageable){
-		Page<ManagerDTO> list = service.findAllPaged(pageable);
+	public ResponseEntity<List<ManagerDTO>> findAll( ){
+		List<ManagerDTO> list = service.findAll();
 		return ResponseEntity.ok().body(list);
 	}
 	
