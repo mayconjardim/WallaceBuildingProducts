@@ -22,23 +22,25 @@ public class WorkOrder implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@JsonFormat(pattern = "MM/dd/yyyy")
 	private LocalDate startDate = LocalDate.now();
-	
+
 	@JsonFormat(pattern = "MM/dd/yyyy")
 	private LocalDate endDate;
 	private Priority priority;
 	private Status status;
 	private String clientName;
 	private String clientAddress;
+	private String clientCity;
+	private String clientZip;
 	private String headline;
 	private String description;
 
 	@ManyToOne
 	@JoinColumn(name = "manager_id")
 	private Manager manager;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "dispatcher_id")
 	private Dispatcher dispatcher;
@@ -46,18 +48,39 @@ public class WorkOrder implements Serializable {
 	public WorkOrder() {
 	}
 
-	public WorkOrder(Long id, Priority priority, Status status, String clientName, String clientAddress,
-			String headline, String description, Manager manager, Dispatcher dispatcher) {
+	public WorkOrder(Long id, LocalDate startDate, LocalDate endDate, Priority priority, Status status,
+			String clientName, String clientAddress, String clientCity, String clientZip, String headline,
+			String description, Manager manager, Dispatcher dispatcher) {
 		super();
 		this.id = id;
+		this.startDate = startDate;
+		this.endDate = endDate;
 		this.priority = priority;
 		this.status = status;
 		this.clientName = clientName;
 		this.clientAddress = clientAddress;
+		this.clientCity = clientCity;
+		this.clientZip = clientZip;
 		this.headline = headline;
 		this.description = description;
 		this.manager = manager;
 		this.dispatcher = dispatcher;
+	}
+
+	public String getClientCity() {
+		return clientCity;
+	}
+
+	public void setClientCity(String clientCity) {
+		this.clientCity = clientCity;
+	}
+
+	public String getClientZip() {
+		return clientZip;
+	}
+
+	public void setClientZip(String clientZip) {
+		this.clientZip = clientZip;
 	}
 
 	public Long getId() {

@@ -1,14 +1,14 @@
 package com.wallacebp.services;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,9 +30,9 @@ public class DispatcherService {
 	private PersonRepository personRepository;
 
 	@Transactional(readOnly = true)
-	public Page<DispatcherDTO> findAllPaged(Pageable pageable) {
-		Page<Dispatcher> list = repository.findAll(pageable);
-		return list.map(x -> new DispatcherDTO(x));
+	public List<DispatcherDTO> findAll( ) {
+		List<Dispatcher> list = repository.findAll();
+		return list.stream().map((x -> new DispatcherDTO(x))).collect(Collectors.toList());
 	}
 
 	@Transactional(readOnly = true)
@@ -72,7 +72,7 @@ public class DispatcherService {
 			throw new ResourceNotFoundException("Id not found: " + id);
 		}
 		catch (DataIntegrityViolationException e ) {
-			throw new DatabaseException("Integrity Violation!");
+			throw new DatabaseException("The dispatcher has orders and cannot be deleted!");
 		}
 	}
 	

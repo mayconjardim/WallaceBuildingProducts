@@ -12,7 +12,7 @@ public class WorkOrderDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
-	
+
 	@JsonFormat(pattern = "MM/dd/yyyy")
 	private LocalDate startDate = LocalDate.now();
 
@@ -26,6 +26,10 @@ public class WorkOrderDTO implements Serializable {
 	private String clientName;
 	@NotNull(message = "Client Address cannot be empty.")
 	private String clientAddress;
+	@NotNull(message = "Client City cannot be empty.")
+	private String clientCity;
+	@NotNull(message = "Client Zip cannot be empty.")
+	private String clientZip;
 	@NotNull(message = "Headline cannot be empty.")
 	private String headline;
 	@NotNull(message = "Description cannot be empty.")
@@ -55,6 +59,8 @@ public class WorkOrderDTO implements Serializable {
 		this.manager = entity.getManager().getId();
 		this.nameDispatcher = entity.getDispatcher().getName();
 		this.nameManager = entity.getManager().getName();
+		this.clientCity = entity.getClientCity();
+		this.clientZip = entity.getClientZip();
 	}
 
 	public Long getId() {
@@ -159,6 +165,22 @@ public class WorkOrderDTO implements Serializable {
 
 	public void setNameManager(String nameManager) {
 		this.nameManager = nameManager;
+	}
+
+	public String getClientCity() {
+		return clientCity;
+	}
+
+	public void setClientCity(String clientCity) {
+		this.clientCity = clientCity;
+	}
+
+	public String getClientZip() {
+		return clientZip;
+	}
+
+	public void setClientZip(String clientZip) {
+		this.clientZip = clientZip;
 	}
 
 }

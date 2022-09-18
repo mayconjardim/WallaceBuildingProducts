@@ -76,22 +76,20 @@ public class ManagerService {
 			throw new ResourceNotFoundException("Id not found: " + id);
 		}
 		catch (DataIntegrityViolationException e ) {
-			throw new DatabaseException("Integrity Violation!");
+			throw new DatabaseException("The manager has orders and cannot be deleted!");
 		}
 	}
 	
 	
 	private void isValid(ManagerDTO dto) {
 		Optional<Person> person = personRepository.findByName(dto.getName());
-		Optional<Manager> manager = repository.findByEmail(dto.getEmail());
+		
 
 		if (person.isPresent() && person.get().getId() != dto.getId()) {
 			throw new DatabaseException("Name already registered!");
 		}
-		
-		if (manager.isPresent() && manager.get().getEmail() != dto.getEmail()) {
-			throw new DatabaseException("Email already registered!");
-		}
+
+	
 
 	}
 

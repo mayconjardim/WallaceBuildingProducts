@@ -1,12 +1,11 @@
 package com.wallacebp.resources;
 
 import java.net.URI;
+import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -30,10 +29,11 @@ public class WorkOrderResources {
 	private WorkOrderService service;
 	
 	@GetMapping
-	public ResponseEntity<Page<WorkOrderDTO>> findAll(Pageable pageable){
-		Page<WorkOrderDTO> list = service.findAllPaged(pageable);
+	public ResponseEntity<List<WorkOrderDTO>> findAll( ){
+		List<WorkOrderDTO> list = service.findAll();
 		return ResponseEntity.ok().body(list);
 	}
+	
 	
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<WorkOrderDTO> findById(@PathVariable Long id){

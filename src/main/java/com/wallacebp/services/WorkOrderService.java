@@ -1,14 +1,14 @@
 package com.wallacebp.services;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,10 +37,11 @@ public class WorkOrderService {
 	private DispatcherRepository dispatcherRepository;
 
 	@Transactional(readOnly = true)
-	public Page<WorkOrderDTO> findAllPaged(Pageable pageable) {
-		Page<WorkOrder> list = repository.findAll(pageable);
-		return list.map(x -> new WorkOrderDTO(x));
+	public List<WorkOrderDTO> findAll( ) {
+		List<WorkOrder> list = repository.findAll();
+		return list.stream().map((x -> new WorkOrderDTO(x))).collect(Collectors.toList());
 	}
+
 
 	@Transactional(readOnly = true)
 	public WorkOrderDTO findById(Long id) {
@@ -67,6 +68,8 @@ public class WorkOrderService {
 		entity.setDescription(dto.getDescription());
 		entity.setClientAddress(dto.getClientAddress());
 		entity.setClientName(dto.getClientName());
+		entity.setClientCity(dto.getClientCity());
+		entity.setClientZip(dto.getClientZip());
 		entity = repository.save(entity);
 		return new WorkOrderDTO(entity);
 	}
