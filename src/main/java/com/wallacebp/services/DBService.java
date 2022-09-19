@@ -9,9 +9,13 @@ import org.springframework.stereotype.Service;
 import com.wallacebp.entities.Admin;
 import com.wallacebp.entities.Dispatcher;
 import com.wallacebp.entities.Manager;
+import com.wallacebp.entities.WorkOrder;
+import com.wallacebp.enums.Priority;
+import com.wallacebp.enums.Status;
 import com.wallacebp.repositories.AdminRepository;
 import com.wallacebp.repositories.DispatcherRepository;
 import com.wallacebp.repositories.ManagerRepository;
+import com.wallacebp.repositories.WorkOrderRepository;
 
 @Service
 public class DBService {
@@ -25,6 +29,8 @@ public class DBService {
 	@Autowired
 	private DispatcherRepository dispatcherRepository;
 
+	@Autowired
+	private WorkOrderRepository orderRepository;
 	
 	@Autowired BCryptPasswordEncoder encoder;
 
@@ -45,12 +51,12 @@ public class DBService {
 		Dispatcher dp4 = new Dispatcher(null, "Luka Doncic");
 
 		
-
+		WorkOrder order1 = new WorkOrder(null, Priority.LOW, Status.OPEN, "Los Angeles Lakers", "Stapes Center", "Street 114", "Los Angeles", "113", "Vasco", mg1, dp1);
 
 		adminRepository.saveAll(Arrays.asList(adm1, adm2));
 		managerRepository.saveAll(Arrays.asList(mg1, mg2, mg3, mg4));
 		dispatcherRepository.saveAll(Arrays.asList(dp1, dp2, dp3, dp4));
-
+		orderRepository.saveAll(Arrays.asList(order1));
 		
 		
 	}
