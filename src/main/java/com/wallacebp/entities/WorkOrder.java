@@ -48,13 +48,11 @@ public class WorkOrder implements Serializable {
 	public WorkOrder() {
 	}
 
-	public WorkOrder(Long id, LocalDate startDate, LocalDate endDate, Priority priority, Status status,
+	public WorkOrder(Long id, Priority priority, Status status,
 			String clientName, String clientAddress, String clientCity, String clientZip, String headline,
 			String description, Manager manager, Dispatcher dispatcher) {
 		super();
 		this.id = id;
-		this.startDate = startDate;
-		this.endDate = endDate;
 		this.priority = priority;
 		this.status = status;
 		this.clientName = clientName;
