@@ -2,13 +2,17 @@ package com.wallacebp.entities;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -45,12 +49,16 @@ public class WorkOrder implements Serializable {
 	@JoinColumn(name = "dispatcher_id")
 	private Dispatcher dispatcher;
 
+	@ManyToMany
+	@JoinTable(name = "order_products", joinColumns = @JoinColumn(name = "order_id"), inverseJoinColumns = @JoinColumn(name = "product_id"))
+	Set<Product> products = new HashSet<>();
+
 	public WorkOrder() {
 	}
 
-	public WorkOrder(Long id, Priority priority, Status status,
-			String clientName, String clientAddress, String clientCity, String clientZip, String headline,
-			String description, Manager manager, Dispatcher dispatcher) {
+	public WorkOrder(Long id, Priority priority, Status status, String clientName, String clientAddress,
+			String clientCity, String clientZip, String headline, String description, Manager manager,
+			Dispatcher dispatcher) {
 		super();
 		this.id = id;
 		this.priority = priority;
@@ -172,6 +180,10 @@ public class WorkOrder implements Serializable {
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
+	}
+
+	public Set<Product> getProducts() {
+		return products;
 	}
 
 	@Override

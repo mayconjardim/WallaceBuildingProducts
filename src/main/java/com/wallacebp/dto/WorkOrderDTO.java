@@ -2,10 +2,14 @@ package com.wallacebp.dto;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.wallacebp.entities.Product;
 import com.wallacebp.entities.WorkOrder;
 
 public class WorkOrderDTO implements Serializable {
@@ -41,6 +45,8 @@ public class WorkOrderDTO implements Serializable {
 	private String nameDispatcher;
 	private String nameManager;
 
+	private List<ProductDTO> products = new ArrayList<>();
+
 	public WorkOrderDTO() {
 	}
 
@@ -61,6 +67,11 @@ public class WorkOrderDTO implements Serializable {
 		this.nameManager = entity.getManager().getName();
 		this.clientCity = entity.getClientCity();
 		this.clientZip = entity.getClientZip();
+	}
+
+	public WorkOrderDTO(WorkOrder entity, Set<Product> products) {
+		this(entity);
+		products.forEach(prod -> this.products.add(new ProductDTO(prod)));
 	}
 
 	public Long getId() {
@@ -181,6 +192,14 @@ public class WorkOrderDTO implements Serializable {
 
 	public void setClientZip(String clientZip) {
 		this.clientZip = clientZip;
+	}
+
+	public List<ProductDTO> getProducts() {
+		return products;
+	}
+
+	public void setProducts(List<ProductDTO> products) {
+		this.products = products;
 	}
 
 }
